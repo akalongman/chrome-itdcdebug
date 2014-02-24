@@ -1,29 +1,15 @@
 {
+	"name": "ITDC Debugger",
+	"version": "0.1",
+	"description": "ITDC CMS Debugger plugin",
+	"devtools_page": "chrome-preprocessor.html",
 	"manifest_version": 2,
-	"name": "ITDCDebug",
-	"description": "This extension demonstrates a 'browser action' with kittens.",
-	"version": "1.0",
-	"offline_enabled": true,
-	"content_scripts": [
-		{
-			// Change 'matches' attribute to load content
-			// script only in pages you want to.
-			"matches": ["http://*/*", "https://*/*"],
-			"css": ["main.css"],
-			"js": ["jquery.min.js"]
-		}
-	],
 	"background": {
 		"scripts": ["background.js"]
 	},
-
-	"browser_action" :
-	{
-		"default_icon" : "icon.png",
-		"default_title" : "ITDCDebug",
-		"default_popup": "popup.html"
-	},
-	"permissions": [
-		"tabs", "https://secure.flickr.com/"
-	]
+	"content_security_policy": "default-src 'self'  chrome-extension-resource: ; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval';  connect-src *; frame-src *;",
+	"web_accessible_resources": [
+		"*"
+	],
+	"permissions": ["tabs", "debugger", "http://*/*", "https://*/*"]
 }

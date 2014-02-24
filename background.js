@@ -1,10 +1,16 @@
-// Add a listener so background knows when a tab has changed.
-// You need 'tabs' persmission, that's why we added it to manifest file.
-chrome.tabs.onUpdated.addListener(showIntercomAction);
+// Copyright (c) 2011 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
 
-function showIntercomAction(tabId, changeInfo, tab) {
-	//if (tab.url.indexOf('argus') > -1) {
-		// Show icon for page action in the current tab.
-		chrome.pageAction.show(tabId);
-	//}
-};
+const tab_log = function(json_args) {
+  var args = JSON.parse(unescape(json_args));
+  console[args[0]].apply(console, Array.prototype.slice.call(args, 1));
+}
+
+chrome.extension.onRequest.addListener(function(request) {
+  if (request.command !== 'sendToConsole')
+    return;
+  chrome.tabs.executeScript(request.tabId, {
+      code: "("+ tab_log + ")('" + request.args + "');",
+  });
+});
